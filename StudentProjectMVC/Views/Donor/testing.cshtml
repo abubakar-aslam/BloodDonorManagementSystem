@@ -1,0 +1,129 @@
+﻿@model Data_Access_Layer.Entities.BloodInventoryStore;
+@{
+    ViewBag.Title = "Update Inventory";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <!-- Add Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f8f9fa; /* Decent background color */
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Student Form</h1>
+        @{
+            if (!String.IsNullOrEmpty(ViewData["ErrorMessage"] as string) || !String.IsNullOrEmpty(ViewData["Error"] as string))
+            {
+                <div class="alert alert-danger">
+                    @using (Html.BeginForm("UpdateRecord", "Donor", FormMethod.Post))
+                    {
+                        @if (ViewData["ErrorMessage"] != null)
+                        {
+                            <h3 class="alert alert-danger text-center">
+                                @ViewData["ErrorMessage"]
+                            </h3>
+                        }
+                        else
+                        {
+                            <h3 class="alert alert-danger text-center">
+                                @ViewData["Error"]
+                            </h3>
+                        }
+                        <div class="form-group">
+                            <input type="hidden" name="DonorId" value="@Model.Id" />
+                            <label for="bloodTypeName">Please Choose Blood Group:</label>
+                            <select id="bloodTypeName" name="BloodTypeName" required asp-for="BloodTypeName" class="form-control">
+                                <option value="">Select Blood Type</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity">Please Enter Phone Number:</label>
+                            <input type="number" id="quantity" name="Quantity" min="1" value="@Model.Quantity" class="form-control" required>
+                        </div>
+                       
+                        <div class="form-group text-center">
+                            <input type="submit" value="Update" class="btn btn-primary">
+                        </div>
+                    }
+                    <div class="form-group text-center">
+                        <a href="@Url.Action("InventoryRecords", "Donor")" class="btn btn-secondary">Back To Inventory</a>
+                    </div>
+                </div>
+            }
+           
+            else
+            {
+                @if (ViewData["SuccessMessage"] != null)
+                {
+                    <h3 class="alert alert-success text-center">
+                        @ViewData["SuccessMessage"]
+                    </h3>
+                }
+                @using (Html.BeginForm("UpdateRecord", "Donor", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        <input type="hidden" name="Id" />
+
+                    </div>
+                    <div class="form-group">
+                        <label for="bloodTypeName">Please Choose Blood Group:</label>
+                        <select id="bloodTypeName" name="BloodTypeName" required class="form-control">
+                            <option value="">Select Blood Type</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Please Enter Phone Number:</label>
+                        <input type="number" id="quantity" name="Quantity" min="1" class="form-control" required>
+                    </div>
+                    <div class="form-group text-center">
+                        <input type="submit" value="Update" class="btn btn-primary">
+                    </div>
+                }
+                <div class="form-group text-center">
+                    <a href="@Url.Action("InventoryRecords", "Donor")" class="btn btn-secondary">Back To Inventory</a>
+                </div>
+            }
+        }
+    </div>
+</body>
+</html>

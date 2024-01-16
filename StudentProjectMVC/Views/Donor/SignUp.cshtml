@@ -1,0 +1,158 @@
+﻿@*@model Data_Access_Layer.Entities.Credentials*@
+
+@{
+    ViewBag.Title = "Sign Up";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        /* Add inline styles here */
+        body {
+            background-image: url('path-to-your-image.jpg'); /* Replace with the actual image path */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        div {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        @if (!String.IsNullOrEmpty(ViewData["SuccessMessage"] as string))
+        {
+            @using (Html.BeginForm("SignUp", "Donor", FormMethod.Post))
+            {
+                <div>
+                    @if (ViewData["SuccessMessage"] != null)
+                    {
+                        <h2 style="color: green; text-align: center;">
+                            @ViewData["SuccessMessage"]
+                        </h2>
+                    }
+                </div>
+                <label for="userName">Please Enter User Name</label>
+                <input type="email" id="userName" name="UserName" required>
+                <br>
+
+                <br>
+
+                <label for="password">Please Enter Password</label>
+                <input type="password" id="password" name="Password" required>
+                <br>
+
+                <br>
+
+                <label>Remember Me</label>
+                <br>
+
+                <br>
+
+                <input type="submit" value="Sign Up" style="background-color: #007BFF; color: white; cursor: pointer;">
+            }
+        }
+        else if (!String.IsNullOrEmpty(ViewData["ErrorMessage"] as string))
+        {
+            @using (Html.BeginForm("SignUp", "Donor", FormMethod.Post))
+            {
+                <div>
+                    @if (ViewData["ErrorMessage"] != null)
+                    {
+                        <h2 style="color: red; text-align: center;">
+                            @ViewData["ErrorMessage"]
+                        </h2>
+                    }
+                </div>
+                <label for="userName">Please Enter User Name</label>
+                <input type="email" id="userName" name="UserName" required>
+                <br>
+
+                <br>
+
+                <label for="password">Please Enter Password</label>
+                <input type="password" id="password" name="Password" required>
+                <br>
+
+                <br>
+
+                <label>Remember Me</label>
+                <br>
+
+                <br>
+
+                <input type="submit" value="Sign Up" style="background-color: #007BFF; color: white; cursor: pointer;">
+            }
+        }
+        else
+        {
+            @using (Html.BeginForm("SignUp", "Donor", FormMethod.Post))
+            {
+               @* <div>
+                    @if (ViewData["Error"] != null)
+                    {
+                        <h2 style="color: red; text-align: center;">
+                            @ViewData["Error"]
+                        </h2>
+                    }
+                </div>*@
+                <label for="userName">Please Enter User Name</label>
+                <input type="email" id="userName" name="UserName" required>
+                <br>
+
+                <br>
+
+                <label for="password">Please Enter Password</label>
+                <input type="password" id="password" name="Password" required>
+                <br>
+
+                <br>
+
+                <label>Remember Me</label>
+                <br>
+
+                <br>
+
+                <input type="submit" value="Sign Up" style="background-color: #007BFF; color: white; cursor: pointer;">
+            }
+        }
+    </div>
+</body>
+</html>

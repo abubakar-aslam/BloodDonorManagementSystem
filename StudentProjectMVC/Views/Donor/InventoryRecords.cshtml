@@ -1,0 +1,122 @@
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@using Data_Access_Layer.Entities;
+@model IEnumerable<Data_Access_Layer.Entities.BloodInventoryStore>
+@{
+    ViewBag.Title = "Home Page";
+    var currentAction = ViewContext.RouteData.Values["action"].ToString();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <h1 class="text-center mb-4">Inventory List</h1>
+                <div class="text-center">
+                    @using (Html.BeginForm("Inventory", "Donor", FormMethod.Get))
+                    {
+                        <p>
+                            <input type="submit" value="Add Inventory" class="btn btn-primary">
+                        </p>
+                    }
+                    <div class="mb-4">
+                        @using (Html.BeginForm("InventoryRecords", "Donor", FormMethod.Post))
+                        {
+                            <div class="form-group">
+                                <label for="search">
+                                    <h3>
+                                        Inventory Filter:
+                                    </h3>
+                                </label>
+                                <input type="text" id="search" name="search" required placeholder="Enter Blood Type/ Quantity" class="form-control">
+                            </div>
+                            <input type="submit" value="Search" class="btn btn-primary">
+                        }
+                    </div>
+                </div>
+                @if (Model != null && Model.Any())
+                {
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.BloodTypeName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Quantity)
+                                </th>
+                             @*   <th>
+                                    @Html.DisplayNameFor(model => model.BloodType)
+                                </th>
+                                *@
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var inventory in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(bloodBank => inventory.BloodTypeName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(bloodBank => inventory.Quantity)
+                                    </td>
+                                   @* <td>
+                                        @Html.DisplayFor(modelstudent => student.BloodType)
+                                    </td>*@
+                                    <td>
+                                        @Html.ActionLink("Edit", "EditInventory", new { id = inventory.Id }, new { @class = "btn btn-info btn-sm" })
+                                        @Html.ActionLink("Delete", "DeleteInventory", new { id = inventory.Id }, new { @class = "btn btn-danger btn-sm", onclick = "return confirm('Are you sure you want to delete this record?');" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="d-flex ">
+                        @Html.PagedListPager((IPagedList)Model, page => Url.Action(currentAction, "Donor", new { page, search = ViewBag.Search }), new PagedListRenderOptions { LiElementClasses = new string[] { "page-item" }, PageClasses = new string[] { "page-link" }, ContainerDivClasses = new string[] { "pagination" } })
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info">
+                        <h2>No Records Found!</h2>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="form-group text-center">
+            <a href="@Url.Action("Dashboard", "Donor")" class="btn btn-secondary">Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Logout";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Set the layout page as needed
+}
+
+<div class="container">
+    <h2>Logout</h2>
+    <p>You have been successfully logged out.</p>
+
+    <p>
+        <a href="@Url.Action("SignIn", "Donor")">Return to Sign In</a>
+    </p>
+</div>
+
+    <script>
+        localStorage.removeItem('jwtToken');
+        window.history.forward(1);
+        // window.location.href = '/Donor/SignIn';
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+    </script>
+     

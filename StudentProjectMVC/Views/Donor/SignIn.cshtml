@@ -1,0 +1,125 @@
+﻿@*@model Data_Access_Layer.Entities.Credentials*@
+
+@{
+    ViewBag.Title = "Sign In";
+}
+@{
+    
+    
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        /* Add styles here */
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        div {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h2 {
+            color: #ff0000;
+            font-size: 18px;
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+   
+    <div>
+        @if (!String.IsNullOrEmpty(ViewData["ErrorMessage"] as string) || !String.IsNullOrEmpty(ViewData["Error"] as string))
+        {
+            @using (Html.BeginForm("SignIn", "Donor", FormMethod.Post))
+            {
+                <div>
+                    @if (ViewData["ErrorMessage"] != null)
+                    {
+                        <h2>@ViewData["ErrorMessage"]</h2>
+                    }
+                    else
+                    {
+                        <h2>@ViewData["Error"]</h2>
+                    }
+                </div>
+                <label for="userName">Please Enter User Name</label>
+                <input type="email" id="userName" name="UserName" required>
+
+                <label for="password">Please Enter Password</label>
+                <input type="password" id="password" name="Password" required>
+
+                <label>Remember Me</label>
+
+                <input type="submit" value="Sign In" />
+            }
+        }
+        else
+        {
+            @using (Html.BeginForm("SignIn", "Donor", FormMethod.Post))
+            {
+                <label for="userName">Please Enter User Name</label>
+                <input type="email" id="userName" name="UserName" required>
+
+                <label for="password">Please Enter Password</label>
+                <input type="password" id="password" name="Password" required>
+
+                <label>Remember Me</label>
+
+                <input type="submit" value="Sign In" />
+            }
+        }
+    </div>
+    @*@section scripts {
+        <script>
+            // Remove the JWT token from local storage
+            localStorage.removeItem('jwtToken');
+
+            // JavaScript function to manipulate the browser's history
+            history.pushState(null, null, location.href);
+            window.onpopstate = function () {
+                history.go(1);
+            };
+        </script>
+    }*@
+
+   
+</body>
+</html>

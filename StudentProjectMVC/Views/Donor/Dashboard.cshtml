@@ -1,0 +1,375 @@
+﻿@*@using Data_Access_Layer.Entities;
+@model Dictionary<string, int>*@
+
+@*@{
+    var testdonorCount = ViewData["DonorCount"] as Dictionary<string, int>;
+    var inventoryCount = ViewData["InventoryCount"] as Dictionary<string, int>;
+}
+
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<style>
+    /* Add styles here */
+    body {
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    div {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        margin: 20px;
+        text-align: center;
+    }
+
+    h1 {
+        color: #007BFF;
+        font-size: 24px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    .btn-secondary {
+        background-color: #007BFF;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+        .btn-secondary:hover {
+            background-color: #0056b3;
+        }
+
+    /* Style for charts */
+    .chart-container {
+        display: inline-block;
+        width: 45%; /* Adjust the width as needed */
+        margin: 10px;
+    }
+</style>
+
+<div>
+    <a href="@Url.Action("DonorsRecord", "Donor")" class="btn btn-secondary">Donor Record</a>
+    <a href="@Url.Action("InventoryRecords", "Donor")" class="btn btn-secondary">Inventory Record</a>
+</div>
+
+<div class="chart-container">
+    <h2>Pie Chart Example 1</h2>
+    <canvas id="pieChart1" width="200" height="200"></canvas>
+</div>
+
+<div class="chart-container">
+    <h2>Pie Chart Example 2</h2>
+    <canvas id="pieChart2" width="200" height="200"></canvas>
+</div>
+
+@section scripts {
+    <script>
+        // Get references to the canvas elements
+        var ctx1 = document.getElementById('pieChart1').getContext('2d');
+        var ctx2 = document.getElementById('pieChart2').getContext('2d');
+
+        // Define the data for the first pie chart
+        if (testdonorCount != null) {
+
+            var records1 = @Html.Raw(Json.Serialize(testdonorCount));
+
+            console.log("Serialized Donor Count Data: ", records1);
+
+            var labels1 = Object.keys(records1);
+            var dataValues1 = Object.values(records1);
+
+            var data1 = {
+                labels: labels1,
+                datasets: [{
+                    data: dataValues1,
+                    backgroundColor: ['red', 'blue', 'green', 'yellow', 'black', 'pink', 'grey', 'orange'],
+                }]
+            };
+
+            var pieChart1 = new Chart(ctx1, {
+                type: 'pie',
+                data: data1,
+            });
+
+        }
+        // Define the data for the second pie chart
+
+        if (inventoryCount != null) {
+
+            var records2 = @Html.Raw(Json.Serialize(inventoryCount));
+
+            console.log("Serialized Inventory Count Data: ", records2);
+            var labels2 = Object.keys(records2);
+            var dataValues2 = Object.values(records2);
+
+            var data2 = {
+                labels: labels2,
+                datasets: [{
+                    data: dataValues2,
+                    backgroundColor: ['red', 'blue', 'green', 'yellow', 'black', 'pink', 'grey', 'orange'],
+                }]
+            };
+
+            var pieChart2 = new Chart(ctx2, {
+                type: 'pie',
+                data: data2,
+            });
+
+        }
+
+    </script>
+}
+
+
+*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*
+
+////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+*@
+
+
+
+
+
+
+
+
+
+@*@using Data_Access_Layer.Entities;
+@model IEnumerable<Data_Access_Layer.Entities.Donor>*@
+@*
+@model Dictionary<string, int>*@
+
+
+@{
+    var testdonorCount = ViewData["DonorCount"] as Dictionary<string, int>;
+    var inventoryCount = ViewData["InventoryCount"] as Dictionary<string, int>;
+    var token = ViewData["Token"] as string;
+}
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        /* Add styles here */
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #007BFF;
+            font-size: 24px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        .btn-secondary {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+            .btn-secondary:hover {
+                background-color: #0056b3;
+            }
+
+        .chart-container {
+            display: inline-block;
+            width: 45%; /* Adjust the width as needed */
+            margin: 10px;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .col-md-6 {
+            flex: 0 0 calc(45% - 20px); /* Adjust the width and spacing as needed */
+            margin: 10px;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Dashboard</h1>
+
+        @*testing for token*@
+
+        <form method="post" action="@Url.Action("Del", "Donor")">
+            @Html.AntiForgeryToken() <!-- Include this if needed -->
+            <input type="hidden" name="token" value="@token">
+            <div class="col-md-6 text-center">
+                <button type="submit" class="btn btn-secondary">Test</button>
+            </div>
+        </form>
+
+
+        @*testing for token*@
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>View Donor Records:</h1>
+            </div>
+            <div class="col-md-6 text-center">
+                <a href="@Url.Action("DonorsRecord", "Donor")" class="btn btn-secondary">Donor Record</a>
+            </div>
+            <div class="col-md-6">
+                <h1>View Inventory Records:</h1>
+            </div>
+            <div class="col-md-6 text-center">
+                <a href="@Url.Action("InventoryRecords", "Donor")" class="btn btn-secondary">Inventory Record</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Donor Graph</h2>
+                <canvas id="pieChart1" width="200" height="200"></canvas>
+            </div>
+            <div class="col-md-6">
+                <h2>Inventory Graph</h2>
+                <canvas id="pieChart2" width="200" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+
+    @section scripts {
+        <script>
+            // Get references to the canvas elements
+            var ctx1 = document.getElementById('pieChart1').getContext('2d');
+            var ctx2 = document.getElementById('pieChart2').getContext('2d');
+
+            // Define the data for the first pie chart
+            if (@Html.Raw(Json.Serialize(testdonorCount)) !== null) {
+
+                var records1 = @Html.Raw(Json.Serialize(testdonorCount));
+
+                console.log("Serialized Donor Count Data: ", records1);
+
+                var labels1 = Object.keys(records1);
+                var dataValues1 = Object.values(records1);
+
+                var data1 = {
+                    labels: labels1,
+                    datasets: [{
+                        data: dataValues1,
+                        backgroundColor: ['red', 'blue', 'green', 'yellow', 'black', 'pink', 'grey', 'orange'],
+                    }]
+                };
+
+                var pieChart1 = new Chart(ctx1, {
+                    type: 'pie',
+                    data: data1,
+                });
+
+            }
+            // Define the data for the second pie chart
+
+            if (@Html.Raw(Json.Serialize(testdonorCount)) !== null) {
+
+                var records2 = @Html.Raw(Json.Serialize(inventoryCount));
+
+                console.log("Serialized Inventory Count Data: ", records2);
+                var labels2 = Object.keys(records2);
+                var dataValues2 = Object.values(records2);
+
+                var data2 = {
+                    labels: labels2,
+                    datasets: [{
+                        data: dataValues2,
+                        backgroundColor: ['red', 'blue', 'green', 'yellow', 'black', 'pink', 'grey', 'orange'],
+                    }]
+                };
+
+                var pieChart2 = new Chart(ctx2, {
+                    type: 'pie',
+                    data: data2,
+                });
+            }
+
+            // Assume you have a variable `token` containing the JWT token
+           
+            var myToken = "@token";
+            if (myToken != null){
+
+            console.log("ljlsjdlasjdlsd Test Test");
+            console.log(myToken);
+            // Store the token in local storage
+            localStorage.setItem('jwtToken', myToken);
+            console.log(localStorage);
+            }
+            else{
+                console.log("!!!!!!!!There is some issue with my token!!!!!!");
+            }
+        
+        </script>
+    }
+
+</body>
+</html>

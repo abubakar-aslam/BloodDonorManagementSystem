@@ -1,0 +1,257 @@
+﻿@model Business_Logic_Layer.Models.DonorModel
+@{
+    ViewBag.Title = "Update Donor";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <!-- Add Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f8f9fa; /* Decent background color */
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Donor Form</h1>
+        @{
+            if (!String.IsNullOrEmpty(ViewData["EmailError"] as string) || !String.IsNullOrEmpty(ViewData["AgeError"] as string) || !String.IsNullOrEmpty(@ViewData["EmailExist"] as string))
+            {
+                <div class="alert alert-danger">
+                    @using (Html.BeginForm("UpdateRecord", "Donor", FormMethod.Post))
+                    {
+                        @if (ViewData["EmailExist"] != null)
+                        {
+                            <h3 class="alert alert-danger text-center">
+                                @ViewData["EmailExist"]
+                            </h3>
+                        }
+                        <div class="form-group">
+                            <input type="hidden" name="DonorId" value="@Model.DonorId" />
+                            <label for="name">Please Enter Name:</label>
+                            <input type="text" id="name" name="DonorName" value="@Model.DonorName" required class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="age">Please Enter Age:</label>
+                            <input type="text" id="age" name="DonorAge" value="@Model.DonorAge" required class="form-control">
+                            @Html.ValidationMessageFor(m => m.DonorAge, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="bloodType">Please Choose Blood Group:</label>
+                            <select id="bloodType" name="BloodType" required asp-for="BloodType" class="form-control">
+                                <option value="">Select Blood Type</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNumber">Please Enter Phone Number:</label>
+                            <input type="text" id="phoneNumber" name="ContactNumber" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="###-###-####" class="form-control" required value="@Model.ContactNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="emailAddress">Please Enter Email:</label>
+                            <input type="text" id="emailAddress" name="EmailAddress" value="@Model.EmailAddress" required class="form-control">
+                            @Html.ValidationMessageFor(m => m.EmailAddress, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Please Enter Address:</label>
+                            <input type="text" id="address" name="Address" class="form-control" required value="@Model.Address">
+                        </div>
+                        <div class="form-group text-center">
+                            <input type="submit" value="Update" class="btn btn-primary">
+                        </div>
+                    }
+                    <div class="form-group text-center">
+                        <a href="@Url.Action("DonorsRecord", "Donor")" class="btn btn-secondary">Back to List</a>
+                    </div>
+                </div>
+            }
+            else if (!String.IsNullOrEmpty(@ViewData["SuccessMessage"] as string) || !String.IsNullOrEmpty(@ViewData["IdError"] as string))
+            {
+                @using (Html.BeginForm("UpdateRecord", "Donor", FormMethod.Post))
+                {
+                    @if (ViewData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success text-center">
+                            @ViewData["SuccessMessage"]
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger text-center">
+                            @ViewData["IdError"]
+                        </div>
+                    }
+                    <div class="form-group">
+
+                        <label for="name">Please Enter Name:</label>
+                        <input type="text" id="name" name="DonorName" required class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Please Enter Age:</label>
+                        <input type="text" id="age" name="DonorAge" required class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="bloodType">Please Choose Blood Group:</label>
+                        <select id="bloodType" name="BloodType" required class="form-control">
+                            <option value="">Select Blood Type</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber">Please Enter Phone Number:</label>
+                        <input type="text" id="phoneNumber" name="ContactNumber" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="###-###-####" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailAddress">Please Enter Email:</label>
+                        <input type="text" id="emailAddress" name="EmailAddress" required class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Please Enter Address:</label>
+                        <input type="text" id="address" name="Address" class="form-control" required>
+                    </div>
+                    <div class="form-group text-center">
+                        <input type="submit" value="Update" class="btn btn-primary">
+                    </div>
+                }
+                <div class="form-group text-center">
+                    <a href="@Url.Action("DonorsRecord", "Donor")" class="btn btn-secondary">Back to List</a>
+                </div>
+            }
+            else if (!String.IsNullOrEmpty(@ViewData["Error"] as string))
+            {
+                <div class="alert alert-danger">
+                    @using (Html.BeginForm("UpdateRecord", "Donor", FormMethod.Post))
+                    {
+                        <h1 class="alert alert-danger">
+                            @ViewData["Error"]
+                        </h1>
+                        <div class="form-group">
+
+                            <label for="name">Please Enter Name:</label>
+                            <input type="text" id="name" name="DonorName" value="@Model.DonorName" required class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="age">Please Enter Age:</label>
+                            <input type="text" id="age" name="DonorAge" value="@Model.DonorAge" required class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="bloodType">Please Choose Blood Group:</label>
+                            <select id="bloodType" name="BloodType" required asp-for="BloodType" class="form-control">
+                                <option value="">Select Blood Type</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNumber">Please Enter Phone Number:</label>
+                            <input type="text" id="phoneNumber" name="ContactNumber" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="###-###-####" value="@Model.ContactNumber" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="emailAddress">Please Enter Email:</label>
+                            <input type="text" id="emailAddress" name="EmailAddress" value="@Model.EmailAddress" required class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Please Enter Address:</label>
+                            <input type="text" id="address" name="Address" value="@Model.Address" class="form-control" required>
+                        </div>
+                        <div class="form-group text-center">
+                            <input type="submit" value="Update" class="btn btn-primary">
+                        </div>
+                    }
+                    <div class="form-group text-center">
+                        <a href="@Url.Action("DonorsRecord", "Donor")" class="btn btn-secondary">Back to List</a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                @using (Html.BeginForm("UpdateRecord", "Donor", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        <input type="hidden" name="DonorId" value="@Model.DonorId" />
+                        <label for="name">Please Enter Name:</label>
+                        <input type="text" id="name" name="DonorName" value="@Model.DonorName" required class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Please Enter Age:</label>
+                        <input type="text" id="age" name="DonorAge" value="@Model.DonorAge" required class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="bloodType">Please Choose Blood Group:</label>
+                        <select id="bloodType" name="BloodType" required asp-for="BloodType" class="form-control">
+                            <option value="">Select Blood Type</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber">Please Enter Phone Number:</label>
+                        <input type="text" id="phoneNumber" name="ContactNumber" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="###-###-####" value="@Model.ContactNumber" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailAddress">Please Enter Email:</label>
+                        <input type="text" id="emailAddress" name="EmailAddress" value="@Model.EmailAddress" required class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Please Enter Address:</label>
+                        <input type="text" id="address" name="Address" value="@Model.Address" class="form-control" required>
+                    </div>
+                    <div class="form-group text-center">
+                        <input type="submit" value="Update" class="btn btn-primary">
+                    </div>
+                }
+                <div class="form-group text-center">
+                    <a href="@Url.Action("DonorsRecord", "Donor")" class="btn btn-secondary">Back to List</a>
+                </div>
+            }
+        }
+    </div>
+</body>
+</html>

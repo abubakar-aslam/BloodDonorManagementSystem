@@ -1,0 +1,149 @@
+﻿@*@model Data_Access_Layer.Entities.Credentials*@
+
+
+
+@{
+    ViewBag.Title = "Add Inventory";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        /* Add styles here */
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* This makes the form center vertically on the screen */
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h1 {
+            color: #007BFF;
+            font-size: 24px;
+        }
+
+        h2.alert-success {
+            color: green;
+        }
+
+        h2.alert-danger {
+            color: red;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        select,
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add Inventory Form</h1>
+
+        @if (!String.IsNullOrEmpty(ViewData["SuccessMessage"] as string))
+        {
+            @using (Html.BeginForm("Inventory", "Donor", FormMethod.Post))
+            {
+                @if (ViewData["SuccessMessage"] != null)
+                {
+                    <h2 class="alert alert-success text-center">
+                        @ViewData["SuccessMessage"]
+                    </h2>
+                }
+                <div class="form-group">
+                    <label for="bloodTypeName">Please Choose Blood Group:</label>
+                    <select id="bloodTypeName" name="BloodTypeName" required class="form-control">
+                        <option value="">Select Blood Type</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Please Enter Quantity:</label>
+                    <input type="number" id="quantity" name="Quantity" min="1" class="form-control" required>
+                </div>
+
+                <div class="form-group text-center">
+                    <input type="submit" value="Add Record" class="btn btn-primary">
+                </div>
+            }
+            <div class="form-group text-center">
+                <a href="@Url.Action("InventoryRecords", "Donor")" class="btn btn-secondary">Back to List</a>
+            </div>
+        }
+        else
+        {
+            @using (Html.BeginForm("Inventory", "Donor", FormMethod.Post))
+            {
+                @if (ViewData["Error"] != null)
+                {
+                    <h2 class="alert alert-danger text-center">
+                        @ViewData["Error"]
+                    </h2>
+                }
+                <div class="form-group">
+                    <label for="bloodTypeName">Please Choose Blood Group:</label>
+                    <select id="bloodTypeName" name="BloodTypeName" required class="form-control">
+                        <option value="">Select Blood Type</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Please Enter Quantity:</label>
+                    <input type="number" id="quantity" name="Quantity" min="1" class="form-control" required>
+                </div>
+
+                <div class="form-group text-center">
+                    <input type="submit" value="Add Record" class="btn btn-primary">
+                </div>
+            }
+            <div class="form-group text-center">
+                <a href="@Url.Action("InventoryRecords", "Donor")" class="btn btn-secondary">Back to List</a>
+            </div>
+        }
+    </div>
+</body>
+</html>
